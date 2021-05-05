@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Gym Generator</title>
+    <link id="font" href="http://fonts.cdnfonts.com/css/samsungone?styles=20623" rel="stylesheet">
+</head>
+
+<body>
+    <div id="initialGroup">
+        <div style="font-family: 'SamsungOne'; display: auto;">Randomly Inits The Font</div>
+        <img id="templateElement" src="./images/template.png" style="display: auto;" />
+        <img id="coverElement" src="./images/canvasjscover.png" style="display: auto;" />
+        <img id="0Num" src="./images/0.png" style="display: auto;" />
+        <img id="1Num" src="./images/1.png" style="display: auto;" />
+        <img id="2Num" src="./images/2.png" style="display: auto;" />
+        <img id="3Num" src="./images/3.png" style="display: auto;" />
+        <img id="4Num" src="./images/4.png" style="display: auto;" />
+        <img id="5Num" src="./images/5.png" style="display: auto;" />
+        <img id="6Num" src="./images/6.png" style="display: auto;" />
+        <img id="7Num" src="./images/7.png" style="display: auto;" />
+        <img id="8Num" src="./images/8.png" style="display: auto;" />
+        <img id="9Num" src="./images/9.png" style="display: auto;" />
+    </div>
+    <canvas id="mainCanvas" width="1440" height="2927"></canvas>
+    <div id="container" style="height:480px;width:1065px;"></div>
+
+
+    <script src="./perlin.js">/*https://github.com/josephg/noisejs*/</script> 
+    <script src="./canvasjs.min.js">/*https://canvasjs.com/*/</script>
+    <script>
+        //Init
+        var date = "Thu, Apr 29";
+        var time = "10:34 - 10:49";
+        var lengthTime = "1517"
+
+        const canvas = document.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#010101';
+        ctx.fillRect(0, 0, 1440, 2927);
+
+        const xForLength = [649, 727, 846, 924];
+
+        //Math For Workout Colors {'grey': >101, 'yellow': 101-121, 'orange': 122-141, 'dark orange': '142-161'} 142, 122, 102      90
+        var maxHeartRate = Math.floor(Math.random() * 15) + 135; // 135-150
+        var avgHeartRate = maxHeartRate - 30;
+        var minHearRate = avgHeartRate - Math.floor(Math.random() * 30); //80-115
+
+        //Noise Generation
+        var dataNoise = [];
+        var granularity = 3,
+            amplitude = 10;
+        noise.seed(Math.random());
+        for (var i = 0; Number(lengthTime.substr(0, 2)) * granularity > i; i++) {
+            dataNoise[i] = {
+                x: i / granularity,
+                y: noise.simplex2(i, 1)
+            }
+        }
+        // console.log(`Max ${maxHeartRate}, Min ${minHearRate}, Avg ${avgHeartRate}`)
+        // console.log(dataNoise)
+
+        //Data Management
+        function manageSection(x, newVal, last) {
+            console.log(`${newVal} ${Math.ceil((newVal-102)/20)} ${last} ${Math.ceil((last-102)/20)}`);
+            switch (Math.ceil((newVal - 102) / 20)) {
+                case 3:
+                    if (Math.ceil((last - 102) / 20) == 3) {
+                        data[dataPos].dataPoints.push({
+                            x: x,
+                            y: newVal
+                        });
+                    } else {
+                        data[dataPos].dataPoints.push({
+                            x: x,
+                            y: newVal
+                        });
+                        dataPos++;
+                        data[dataPos] = {
+                            lineThickness: 3,
+                            markerType: "none",
+                            type: "spline",
+                            indexLabelFontSize: 16,
+                            color: "#EF6C12",
+                            dataPoints: [{
+                                x: x,
+                                y: newVal
+                            }]
+                        }
+                    }
+                    break;
+                case 2:
+                    if (Math.ceil((last - 102) / 20) == 2) {
+                        data[dataPos].dataPoints.push({
+                            x: x,
+                            y: newVal
+                        });
+                    } else {
+                        data[dataPos].dataPoints.push({
+                            x: x,
+                            y: newVal
+                        });
+                        dataPos++;
+                        data[dataPos] = {
+                            lineThickness: 3,
+                            markerType: "none",
+                            type: "spline",
+                            indexLabelFontSize: 16,
+                            color: "#F39718",
+                            dataPoints: [{
+                                x: x,
+                                y: newVal
+                            }]
+                        }
+                    }
+                    break;
+                case 1:
+                    if (Math.ceil((last - 102) / 20) == 1) {
+                        data[dataPos].dataPoints.push({
+                            x: x,
+                            y: newVal
+                        });
+                    } else {
+                        data[dataPos].dataPoints.push({
+                            x: x,
+                            y: newVal
+                        });
+                        dataPos++;
+                        data[dataPos] = {
+                            lineThickness: 3,
+                            markerType: "none",
+                            type: "spline",
+                            indexLabelFontSize: 16,
+                            color: "#F7D720",
+                            dataPoints: [{
+                                x: x,
+                                y: newVal
+                            }]
+                        }
+                    }
+                    break;
+                case 0:
+                    if (Math.ceil((last - 102) / 20) == 0) {
+                        data[dataPos].dataPoints.push({
+                            x: x,
+                            y: newVal
+                        });
+                    } else {
+                        data[dataPos].dataPoints.push({
+                            x: x,
+                            y: newVal
+                        });
+                        dataPos++;
+                        console.log(dataPos);
+                        data[dataPos] = {
+                            lineThickness: 3,
+                            markerType: "none",
+                            type: "spline",
+                            indexLabelFontSize: 16,
+                            color: "#909090",
+                            dataPoints: [{
+                                x: x,
+                                y: newVal
+                            }]
+                        }
+                    }
+                    break;
+            }
+        }
+
+        var last = Math.floor((avgHeartRate + minHearRate) / 2),
+            data = [{
+                lineThickness: 3,
+                markerType: "none",
+                type: "spline",
+                indexLabelFontSize: 16,
+                dataPoints: [],
+                color: "#909090"
+            }],
+            dataPos = 0;
+        manageSection(0, last, last, dataPos);
+        console.log(data);
+        console.log(last);
+        var max = {
+            x: 0,
+            val: 0
+        };
+        // var mode =
+        dataNoise.forEach((noiseVal, i) => {
+            if (i == 0) return;
+            if (last + noiseVal.y * amplitude > maxHeartRate || last + noiseVal.y * amplitude <
+                minHearRate) {
+                noiseVal.y *= -1
+            }
+            // last += dataNoise[i].y * amplitude;
+            // data[i] = {
+            //     x: dataNoise[i].x,
+            //     y: last
+            // }
+            var newVal = last + Math.floor(noiseVal.y * amplitude);
+            manageSection(noiseVal.x, newVal, last, dataPos);
+            last = newVal;
+            if (newVal > max.val) {
+                max.x = dataNoise[i].x,
+                    max.val = dataNoise[i].y
+            }
+        });
+        // console.log(data)
+
+        var chart = new CanvasJS.Chart("container", {
+            backgroundColor: "rgba(255,255,255,0.0)",
+            interactivityEnabled: false,
+            //  height: 600,
+            //  width: 1331,
+            axisX: {
+                gridThickness: 0,
+                tickLength: 0,
+                lineThickness: 0,
+                labelFormatter: function () {
+                    return " ";
+                }
+            },
+            axisY: {
+                minimum: 60,
+                maximum: 207,
+                gridThickness: 0,
+                tickLength: 0,
+                lineThickness: 0,
+                labelFormatter: function () {
+                    return " ";
+                }
+            },
+            data: data
+            // data: [{
+            //     markerType: "none",
+            //     type: "spline",
+            //     color:"black",
+            //     indexLabelFontSize: 16,
+            //     dataPoints: data
+            // }]
+        });
+        chart.render();
+        t = setTimeout(function () {
+            main();
+            drawText();
+            ctx.drawImage(document.getElementsByClassName("canvasjs-chart-canvas")[0], 57, 1480, 1331,
+                600
+                ); //Start 57, 1480; Size 1331, 600; Clip Bottom 50?      Clipped (cnvs, 0, 0, 1331, 585, 57, 1480, 1331, 600) 
+            ctx.drawImage(coverImage, 1300, 2055, 80, 80);
+            ctx.fillStyle = '#171717';
+            ctx.fillRect(1367, 2058, 55, 64);
+            document.getElementById("container").remove();
+        }, 500);
+
+
+        //mins text arrangement
+        //150, 2100
+        var lengthMinutes = Number(lengthTime.substr(0, 2));
+        var lengthTens = Math.floor(lengthMinutes / 10);
+        var lengthRound = lengthTens * 10;
+        // console.log((10 * 1) / lengthMinutes);
+        timeLoc = [];
+        for (i = 1; lengthTens + 1 > i; i++) {
+            if ((10 * i) / lengthMinutes > .97) break;
+            timeLoc.push((10 * i) / lengthMinutes * 1292 + 75 - 19);
+        }
+        // console.log(timeLoc);
+
+        //Handle Template Background & Length
+        let backgroundImage = new Image(),
+            coverImage = new Image();
+        let ZeroNum = new Image(),
+            OneNum = new Image(),
+            TwoNum = new Image(),
+            ThreeNum = new Image(),
+            FourNum = new Image(),
+            FiveNum = new Image(),
+            SixNum = new Image();
+        SevenNum = new Image();
+        EightNum = new Image();
+        NineNum = new Image();
+
+
+        backgroundImage.src = document.getElementById("templateElement").src;
+        coverImage.src = document.getElementById("coverElement").src;
+        ZeroNum.src = document
+            .getElementById("0Num").src;
+        OneNum.src = document.getElementById("1Num").src;
+        TwoNum.src = document
+            .getElementById("2Num").src;
+        ThreeNum.src = document.getElementById("3Num").src;
+        FourNum.src = document
+            .getElementById("4Num").src;
+        FiveNum.src = document.getElementById("5Num").src;
+        SixNum.src = document
+            .getElementById("6Num").src;
+        SevenNum.src = document.getElementById("7Num").src;
+        EightNum.src = document.getElementById("8Num").src;
+        NineNum.src = document.getElementById("9Num").src;
+
+        function main() {
+            // document.getElementById("templateElement").remove();
+            // document.getElementById("coverElement").remove();
+            // document.getElementById("0Num").remove();
+            // document.getElementById("1Num").remove();
+            // document.getElementById("2Num").remove();
+            // document.getElementById("3Num").remove();
+            // document.getElementById("4Num").remove();
+            // document.getElementById("5Num").remove();
+            // document.getElementById("6Num").remove();
+            // document.getElementById("7Num").remove();
+            // document.getElementById("8Num").remove();
+            // document.getElementById("9Num").remove();
+            document.getElementById("initialGroup").remove();
+            ctx.drawImage(backgroundImage, 0, 0);
+
+            for (i = 0; i < 4; i++) {
+                // console.log(lengthTime.substr(i, 1));
+                switch (Number(lengthTime.substr(i, 1))) {
+                    case 0:
+                        ctx.drawImage(ZeroNum, xForLength[i], 645);
+                        break;
+                    case 1:
+                        ctx.drawImage(OneNum, xForLength[i], 645);
+                        break;
+                    case 2:
+                        ctx.drawImage(TwoNum, xForLength[i], 645);
+                        break;
+                    case 3:
+                        ctx.drawImage(ThreeNum, xForLength[i], 645);
+                        break;
+                    case 4:
+                        ctx.drawImage(FourNum, xForLength[i], 645);
+                        break;
+                    case 5:
+                        ctx.drawImage(FiveNum, xForLength[i], 645);
+                        break;
+                    case 6:
+                        ctx.drawImage(SixNum, xForLength[i], 645);
+                        break;
+                    case 7:
+                        ctx.drawImage(SevenNum, xForLength[i], 645);
+                        break;
+                    case 8:
+                        ctx.drawImage(EightNum, xForLength[i], 645);
+                        break;
+                    case 9:
+                        ctx.drawImage(NineNum, xForLength[i], 645);
+                        break;
+
+                }
+            }
+            // ctx.drawImage(ZeroNum, 727, 645);
+            // ctx.drawImage(ZeroNum, 846, 645);
+            // ctx.drawImage(ZeroNum, 924, 645);
+        };
+
+        //Handle Date/Time Text
+        function drawText() {
+            // ctx.font-family = 'SamsungOne';
+            ctx.font = '51px SamsungOne';
+            ctx.fillStyle = 'white';
+            ctx.fillText(date, 88, 268);
+            ctx.fillStyle = '#959595';
+            ctx.fillText(time, 91, 341);
+
+            ctx.font = '63px SamsungOne';
+            ctx.fillStyle = '#FAFAFA';
+            ctx.fillText(avgHeartRate, 380, 2240);
+            ctx.fillText(maxHeartRate, 999, 2240);
+
+            ctx.font = '35px SamsungOne';
+            ctx.fillStyle = '#C3C3C3';
+            timeLoc.forEach((pos, i) => {
+                ctx.fillText((i + 1) * 10, pos, 2110);
+            });
+        }
+    </script>
+</body>
+
+</html>
